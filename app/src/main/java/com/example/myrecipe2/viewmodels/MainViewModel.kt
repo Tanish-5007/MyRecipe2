@@ -1,4 +1,4 @@
-package com.example.myrecipe2
+package com.example.myrecipe2.viewmodels
 
 
 import android.app.Application

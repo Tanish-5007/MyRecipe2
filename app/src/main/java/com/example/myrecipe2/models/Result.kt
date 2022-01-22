@@ -1,7 +1,6 @@
 package com.example.myrecipe2.models
 
 
-import com.example.myrecipe2.models.ExtendedIngredient
 import com.google.gson.annotations.SerializedName
 
 data class Result(
