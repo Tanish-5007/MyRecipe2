@@ -1,4 +1,4 @@
-package com.example.myrecipe2
+package com.example.myrecipe2.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
