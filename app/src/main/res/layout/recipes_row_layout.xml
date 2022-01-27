@@ -90,13 +90,13 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/heart_textView"
                     app:layout_constraintTop_toBottomOf="@+id/description_textView"
-                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintVertical_bias="1.0"
                     app:srcCompat="@drawable/ic_heart"
                     app:tint="@color/red" />
 
                 <TextView
                     android:id="@+id/heart_textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:text="@{String.valueOf(result.aggregateLikes)}"
                     android:textColor="@color/red"
@@ -116,7 +116,7 @@
 
                 <TextView
                     android:id="@+id/clock_textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:text="@{String.valueOf(result.readyInMinutes)}"

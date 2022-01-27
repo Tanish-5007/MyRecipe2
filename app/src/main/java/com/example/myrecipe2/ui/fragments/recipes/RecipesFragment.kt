@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myrecipe2.viewmodels.MainViewModel
 import com.example.myrecipe2.adapters.RecipesAdapter
 import com.example.myrecipe2.databinding.FragmentRecipesBinding
-import com.example.myrecipe2.util.Constants.Companion.API_KEY
 import com.example.myrecipe2.util.NetworkResult
 import com.example.myrecipe2.viewmodels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,12 +47,13 @@ class RecipesFragment : Fragment() {
         requestApiData()
 
         return binding.root
+        
     }
 
     private fun requestApiData(){
         mainViewModel.getRecipes(recipesViewModel.applyQueries())
-        mainViewModel.recipesResponse.observe(viewLifecycleOwner, { response ->
-            when(response){
+        mainViewModel.recipesResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is NetworkResult.Success -> {
                     hideShimmerEffect()
                     response.data?.let {
@@ -72,7 +72,7 @@ class RecipesFragment : Fragment() {
                     showShimmerEffect()
                 }
             }
-        })
+        }
     }
 
 
