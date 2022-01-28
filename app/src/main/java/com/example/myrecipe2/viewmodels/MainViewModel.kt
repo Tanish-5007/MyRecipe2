@@ -7,7 +7,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
 import com.example.myrecipe2.data.Repository
-import com.example.myrecipe2.data.database.RecipesEntity
+import com.example.myrecipe2.data.database.entities.FoodJokeEntity
+import com.example.myrecipe2.data.database.entities.RecipesEntity
 import com.example.myrecipe2.models.FoodJoke
 import com.example.myrecipe2.models.FoodRecipe
 import com.example.myrecipe2.util.NetworkResult
@@ -27,10 +28,16 @@ class MainViewModel @Inject constructor(
     /** ROOM DATABASE*/
 
     val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readDatabase().asLiveData()
+    val readFoodJoke: LiveData<List<FoodJoke>> = repository.local.readFoodJoke().asLiveData()
 
     private fun insertRecipes(recipesEntity: RecipesEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertRecipes(recipesEntity)
+        }
+
+    private fun insertFoodJoke(foodJokeEntity: FoodJokeEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.insertFoodJoke(foodJokeEntity)
         }
 
 
@@ -57,6 +64,12 @@ class MainViewModel @Inject constructor(
             try {
                 val response = repository.remote.getFoodJoke(apiKey)
                 foodJokeResponse.value = handleFoodJokeResponse(response)
+
+                val foodJoke = foodJokeResponse.value!!.data
+                if(foodJoke != null){
+                    offlineCacheFoodJoke(foodJoke)
+                }
+
             } catch (e: Exception){
                 foodJokeResponse.value = NetworkResult.Error("")
             }
@@ -89,6 +102,11 @@ class MainViewModel @Inject constructor(
     private fun offlineCacheRecipe(foodRecipe: FoodRecipe) {
         val recipesEntity = RecipesEntity(foodRecipe)
         insertRecipes(recipesEntity)
+    }
+
+    private fun offlineCacheFoodJoke(foodJoke: FoodJoke){
+        val foodJokeEntity = FoodJokeEntity(foodJoke)
+        insertFoodJoke(foodJokeEntity)
     }
 
     private fun handleFoodRecipesResponse(response: Response<FoodRecipe>): NetworkResult<FoodRecipe> {
